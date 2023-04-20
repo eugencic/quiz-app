@@ -1,0 +1,68 @@
+import { createRouter, createWebHistory } from "vue-router";
+import HomeView from "../views/HomeView.vue";
+import SignupView from "../views/SignupView.vue";
+
+const routes = [
+  {
+    path: "/",
+    name: "home",
+    component: HomeView,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/signup",
+    name: "signup",
+    component: SignupView,
+  },
+];
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes,
+});
+
+router.beforeEach((to, from, next) => {
+  const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
+  const userData = localStorage.getItem("userData");
+  if (requiresAuth && !userData) {
+    if (to.path === "/signup") {
+      next();
+    } else {
+      next("/signup");
+    }
+  } else {
+    const user = JSON.parse(userData);
+    if (user && user.userId && user.userId !== "undefined" && user.date && user.time) {
+      const currentDate = new Date();
+      const savedDate = new Date(user.date + " " + user.time);
+      if (currentDate.toDateString() === savedDate.toDateString()) {
+        if (currentDate.getTime() - savedDate.getTime() >= 12 * 60 * 60 * 1000) {
+          localStorage.removeItem("userData");
+          if (to.path === "/signup") {
+            next();
+          } else {
+            next("/signup");
+          }
+        } else {
+          next();
+        }
+      } else {
+        localStorage.removeItem("userData");
+        if (to.path === "/signup") {
+          next();
+        } else {
+          next("/signup");
+        }
+      }
+    } else {
+      localStorage.removeItem("userData");
+      if (to.path === "/signup") {
+        next();
+      } else {
+        next("/signup");
+      }
+    }
+  }
+});
+
+export default router;
