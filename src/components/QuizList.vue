@@ -1,5 +1,5 @@
 <template>
-  <div id="quiz-container">
+  <div id="quiz-list-container">
     <div class="quiz-preview" v-for="(quiz, index) in quizzes" :key="index" @click="navigateToQuiz(quiz.id)">
       <div class="quiz-title">
         <h2>{{ quiz.title }}</h2>
@@ -31,7 +31,7 @@ export default {
 </script>
 
 <style>
-#quiz-container {
+#quiz-list-container {
   width: 80%;
   height: auto;
   margin-top: 3%;

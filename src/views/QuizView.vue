@@ -1,16 +1,15 @@
 <template>
-  <div>
+  <div id="quiz-main-container">
     <h1>{{ quizzData.title }}</h1>
-    <div v-for="(question, index) in quizzData.questions" :key="index">
+    <div id="quiz-container" v-for="(question, index) in quizzData.questions" :key="index">
       <h2>{{ question.question }}</h2>
-      <div v-for="(answer, answerIndex) in question.answers" :key="answerIndex">
-        <label>
-          <input type="radio" :value="answer" v-model="question.selectedAnswer">
-          {{ answer }}
-        </label>
+      <div id="answer" v-for="(answer, answerIndex) in question.answers" :key="answerIndex"
+        :class="{'selected': question.selectedAnswer === answer}"
+        @click="selectAnswer(question, answer)">
+        <h3>{{ answer }}</h3>
       </div>
     </div>
-    <button @click="submitQuiz">Submit</button>
+    <v-btn id="submit-answers-button" @click="submitQuiz">Submit</v-btn>
   </div>
 </template>
 
@@ -54,18 +53,21 @@ export default {
           console.log(error);
         });
       },
+      selectAnswer(question, answer) {
+        question.selectedAnswer = answer;
+      },
       submitQuiz() {
         this.quizzData.questions.forEach(question => {
             console.log(question.selectedAnswer);
             console.log(question.id);
         });
-    }
+      }
   },
 }
 </script>
 
 <style>
-#home-main-container {
+#quiz-main-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -77,18 +79,46 @@ h1 {
   color: #F5F5F5;
 }
 
-input[type="radio"] {
-  -webkit-appearance: radio !important;
-  appearance: radio !important;
-  -moz-appearance: radio !important;
-  -ms-appearance: radio !important;
+h2 {
+  margin-bottom: 3%;
 }
 
-input[type="radio"]:checked {
-  -webkit-appearance: radio !important;
-  appearance: radio !important;
-  -moz-appearance: radio !important;
-  -ms-appearance: radio !important;
+#quiz-container {
+  width: 40%;
+  min-width: 20%;
+  height: auto;
+  margin-top: 3%;
+  padding-top: 3%;
+  padding-bottom: 3%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #382a4b;
+  border-radius: 25px;
 }
 
+#answer {
+  width: 50%;
+  min-width: 150px;
+  height: 30%;
+  margin: 2%;
+  padding: 1%;
+  justify-content: center;
+  align-items: center;
+  background-color: #271c36;
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+#answer.selected {
+  background-color: #42b983;
+  color: #F5F5F5;
+}
+
+#submit-answers-button {
+  margin: 3%;
+  background-color: #42b983;
+  color: #F5F5F5;
+}
 </style>
