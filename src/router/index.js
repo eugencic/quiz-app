@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import SignupView from "../views/SignupView.vue";
+import QuizView from "../views/QuizView.vue";
 
 const routes = [
   {
@@ -14,6 +15,12 @@ const routes = [
     name: "signup",
     component: SignupView,
   },
+  {
+    path: "/quiz/:id",
+    name: "quiz",
+    component: QuizView,
+    props: true,
+  }
 ];
 
 const router = createRouter({

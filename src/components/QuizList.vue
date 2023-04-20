@@ -1,11 +1,11 @@
 <template>
   <div id="quiz-container">
-    <div class="quiz-preview" v-for="(quizz, index) in quizzes" :key="index" >
-      <div class="quizz-title">
-        <h2>{{ quizz.title }}</h2>
+    <div class="quiz-preview" v-for="(quiz, index) in quizzes" :key="index" @click="navigateToQuiz(quiz.id)">
+      <div class="quiz-title">
+        <h2>{{ quiz.title }}</h2>
       </div>
-      <div class="quizz-body">
-        <p>Questions count: {{ quizz.questions_count }}</p>
+      <div class="quiz-body">
+        <p>Questions count: {{ quiz.questions_count }}</p>
       </div>
     </div>
   </div>
@@ -16,6 +16,16 @@ export default {
   name: 'QuizList',
   props: {
     quizzes: [],
+  },
+  methods: {
+    navigateToQuiz(quizId) {
+      this.$router.push({
+        name: "quiz",
+        params: {
+          id: quizId,
+        },
+      });
+    }
   }
 }
 </script>
