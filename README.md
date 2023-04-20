@@ -1,5 +1,23 @@
 # Lab 4 - Quiz app
 
+## Project setup
+```
+npm install
+```
+
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
+
+### Compiles and minifies for production
+```
+npm run build
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
+
 ## Story
 
 Imagine, you're a developer at Sunny Entertainment GK, Tokyo. Ni hao. The company is struggling to find customers in Tokyo, so the marketing department proposes to launch a proof-of-concept app for running quizzes. The marketing campaign starts soon and you have to develop the app itself.
@@ -45,21 +63,3 @@ You can get `+1` point if the app includes a background music player/ sound effe
 - To track & keep progress in the app, you can use state managers provided by the framework e.g. Redux or Vuex/Pinta.
 - Use Postman to test the Quiz API **before** implementing the app itself -- create quizzes, create users, submit responses and so on.
 - Keep it simple, commit often, improve gradually.
-
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

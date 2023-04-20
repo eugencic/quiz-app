@@ -121,4 +121,10 @@ h2 {
   background-color: #42b983;
   color: #F5F5F5;
 }
+
+.top-left-image {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
 </style>
