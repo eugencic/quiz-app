@@ -9,8 +9,10 @@
         <h3>{{ answer }}</h3>
       </div>
     </div>
+    <v-alert v-if="alert" text="Please respond to all the questions before submitting" type="error" variant="tonal" class="submit-questions-alert"></v-alert>
     <v-btn id="submit-answers-button" @click="submitQuiz">Submit</v-btn>
   </div>
+  <v-alert v-if="alert" text="Please respond to all the questions before submitting" type="error" variant="tonal" class="submit-questions-alert"></v-alert>
 </template>
 
 <script>
@@ -23,8 +25,15 @@ export default {
   },
   data() {
     return {
-        quizzId: '',
-        quizzData: []
+      quizzId: '',
+      quizzData: [],
+      questionData: {
+        question_id: Number,
+        answer: String,
+        user_id: Number  
+      },
+      counter: 0,
+      alert: false
     }
   },
   created () {
@@ -33,7 +42,7 @@ export default {
     }
   },
   mounted() {
-      this.getQuizData();
+    this.getQuizData();
   },
   methods: {
     getQuizData() {
@@ -47,21 +56,59 @@ export default {
             this.quizzData.questions.forEach(question => {
             question.selectedAnswer = '';
             });
-          console.log(this.quizzData);
         })
         .catch(error => {
           console.log(error);
         });
-      },
-      selectAnswer(question, answer) {
+    },
+    selectAnswer(question, answer) {
         question.selectedAnswer = answer;
-      },
-      submitQuiz() {
+    },
+    submitQuiz() {
+      this.quizzData.questions.forEach(question => {
         this.quizzData.questions.forEach(question => {
-            console.log(question.selectedAnswer);
-            console.log(question.id);
+          if (question.selectedAnswer != '') {
+            this.counter = this.counter + 1;
+          }
         });
-      }
+        if (this.counter != 10) {
+          this.showAlert();
+          this.counter = 0;
+        }
+        else {
+          this.counter = 0;   
+          this.questionData.question_id = question.id;
+          this.questionData.answer = question.selectedAnswer;
+        const user = JSON.parse(localStorage.getItem("userData"));
+        this.questionData.user_id = user.userId;
+        console.log(this.questionData);
+        axios.post(`https://late-glitter-4431.fly.dev/api/v54/quizzes/${this.quizzId}/submit`, {
+          data: this.questionData
+        },  {
+              headers: {
+                'X-Access-Token': '434b1fd497c7bbc24635dfd972ddd6e12bb9186e9ea189eb24abd082b63648fd',
+              }
+            })
+              .then(response => {
+                // this.quizzData = response.data;
+                // this.quizzData.questions.forEach(question => {
+                // question.selectedAnswer = '';
+                // });
+                console.log(response);
+              })
+              .catch(error => {
+              console.log(error);
+              });
+        }
+
+      });
+    },
+    showAlert() {
+      this.alert = true;
+      this.alertTimeout = setTimeout(() => {
+        this.alert = false;
+      }, 5000);
+    },
   },
 }
 </script>
@@ -75,7 +122,7 @@ export default {
 }
 
 h1 {
-  margin-top: 3%;
+  margin: 3% 3% 0 3%;
   color: #F5F5F5;
 }
 
@@ -126,5 +173,14 @@ h2 {
   position: absolute;
   top: 0;
   right: 0;
+}
+
+.submit-questions-alert {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  /* width: 30%;
+  margin-top: 2%; */
+  /* margin-bottom: 3%; */
 }
 </style>
