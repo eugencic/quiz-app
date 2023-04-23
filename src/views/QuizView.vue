@@ -12,7 +12,6 @@
     <v-alert v-if="alert" text="Please respond to all the questions before submitting" type="error" variant="tonal" class="submit-questions-alert"></v-alert>
     <v-btn id="submit-answers-button" @click="submitQuiz">Submit</v-btn>
   </div>
-  <v-alert v-if="alert" text="Please respond to all the questions before submitting" type="error" variant="tonal" class="submit-questions-alert"></v-alert>
 </template>
 
 <script>
@@ -84,54 +83,32 @@ export default {
           this.questionData.answer = question.selectedAnswer;
           const user = JSON.parse(localStorage.getItem("userData"));
           this.questionData.user_id = user.userId;
-          // console.log(this.questionData);
           promises.push(axios.post(`https://late-glitter-4431.fly.dev/api/v54/quizzes/${this.quizzId}/submit`, {
             data: this.questionData
           }, {
             headers: {
               'X-Access-Token': 'd637e24c46ee36022cfe35c3e29352b6a68494a456d19bd37ffb50ec1ef315b0',
             }
-          }));
-          // .then(response => {
-          //   console.log(response.data);
-          //   this.receivedResponses = this.receivedResponses + 1;
-          //   console.log("Received responses:" + this.receivedResponses); // log the response object to the console
-          //   if (response.data.correct === true) {
-          //     console.log('Answer is correct!'); // log a message to the console if the answer is correct
-          //     this.score = this.score + 1;
-          //     console.log(this.score); // log the updated score to the console
-          //   }
-          // })
-          // .catch(error => {
-          // console.log(error);
-          // });
+          }
+          ));
         }
-      
+      });
 
-      });
-        Promise.all(promises)
-    .then(responses => {
-      responses.forEach(response => {
-        console.log(response.data);
-        this.receivedResponses = this.receivedResponses + 1;
-        console.log("Received responses:" + this.receivedResponses); // log the response object to the console
-        if (response.data.correct === true) {
-          console.log('Answer is correct!'); // log a message to the console if the answer is correct
-          this.score = this.score + 1;
-          console.log(this.score); // log the updated score to the console
-        }
-      });
-      
-      if (this.receivedResponses === 10) {
-        console.log("Your score: " + this.score);
-      }
-    })
-    .catch(error => {
-      console.log(error);
-    });
-      // if (this.receivedResponses === 10) {
-      //   console.log("Your score: " + this.score);
-      // }
+      Promise.all(promises)
+        .then(responses => {
+          responses.forEach(response => {
+            this.receivedResponses = this.receivedResponses + 1;
+            if (response.data.correct === true) {
+              this.score = this.score + 1;
+            }
+          });
+          if (this.receivedResponses === 10) {
+            console.log("Your score: " + this.score);
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     showAlert() {
       this.alert = true;
@@ -141,8 +118,6 @@ export default {
     },
   },
 }
-
-
 </script>
 
 <style>
@@ -208,11 +183,7 @@ h2 {
 }
 
 .submit-questions-alert {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  /* width: 30%;
-  margin-top: 2%; */
-  /* margin-bottom: 3%; */
+  width: 30%;
+  margin-top: 2%;
 }
 </style>
