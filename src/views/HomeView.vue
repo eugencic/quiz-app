@@ -27,7 +27,7 @@ export default {
     getQuizzes() {
       axios.get('https://late-glitter-4431.fly.dev/api/v54/quizzes', {
         headers: {
-          'X-Access-Token': '434b1fd497c7bbc24635dfd972ddd6e12bb9186e9ea189eb24abd082b63648fd',
+          'X-Access-Token': 'd637e24c46ee36022cfe35c3e29352b6a68494a456d19bd37ffb50ec1ef315b0',
         }
       })
         .then(response => {

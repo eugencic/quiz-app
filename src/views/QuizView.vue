@@ -33,7 +33,9 @@ export default {
         user_id: Number  
       },
       counter: 0,
-      alert: false
+      score: 0,
+      alert: false,
+      receivedResponses: 0
     }
   },
   created () {
@@ -48,23 +50,24 @@ export default {
     getQuizData() {
       axios.get(`https://late-glitter-4431.fly.dev/api/v54/quizzes/${this.quizzId}`, {
         headers: {
-          'X-Access-Token': '434b1fd497c7bbc24635dfd972ddd6e12bb9186e9ea189eb24abd082b63648fd',
+          'X-Access-Token': 'd637e24c46ee36022cfe35c3e29352b6a68494a456d19bd37ffb50ec1ef315b0',
         }
       })
         .then(response => {
-            this.quizzData = response.data;
-            this.quizzData.questions.forEach(question => {
+          this.quizzData = response.data;
+          this.quizzData.questions.forEach(question => {
             question.selectedAnswer = '';
-            });
+          });
         })
         .catch(error => {
           console.log(error);
         });
     },
     selectAnswer(question, answer) {
-        question.selectedAnswer = answer;
+      question.selectedAnswer = answer;
     },
     submitQuiz() {
+      let promises = [];
       this.quizzData.questions.forEach(question => {
         this.quizzData.questions.forEach(question => {
           if (question.selectedAnswer != '') {
@@ -76,32 +79,59 @@ export default {
           this.counter = 0;
         }
         else {
-          this.counter = 0;   
+          this.counter = 0;
           this.questionData.question_id = question.id;
           this.questionData.answer = question.selectedAnswer;
-        const user = JSON.parse(localStorage.getItem("userData"));
-        this.questionData.user_id = user.userId;
-        console.log(this.questionData);
-        axios.post(`https://late-glitter-4431.fly.dev/api/v54/quizzes/${this.quizzId}/submit`, {
-          data: this.questionData
-        },  {
-              headers: {
-                'X-Access-Token': '434b1fd497c7bbc24635dfd972ddd6e12bb9186e9ea189eb24abd082b63648fd',
-              }
-            })
-              .then(response => {
-                // this.quizzData = response.data;
-                // this.quizzData.questions.forEach(question => {
-                // question.selectedAnswer = '';
-                // });
-                console.log(response);
-              })
-              .catch(error => {
-              console.log(error);
-              });
+          const user = JSON.parse(localStorage.getItem("userData"));
+          this.questionData.user_id = user.userId;
+          // console.log(this.questionData);
+          promises.push(axios.post(`https://late-glitter-4431.fly.dev/api/v54/quizzes/${this.quizzId}/submit`, {
+            data: this.questionData
+          }, {
+            headers: {
+              'X-Access-Token': 'd637e24c46ee36022cfe35c3e29352b6a68494a456d19bd37ffb50ec1ef315b0',
+            }
+          }));
+          // .then(response => {
+          //   console.log(response.data);
+          //   this.receivedResponses = this.receivedResponses + 1;
+          //   console.log("Received responses:" + this.receivedResponses); // log the response object to the console
+          //   if (response.data.correct === true) {
+          //     console.log('Answer is correct!'); // log a message to the console if the answer is correct
+          //     this.score = this.score + 1;
+          //     console.log(this.score); // log the updated score to the console
+          //   }
+          // })
+          // .catch(error => {
+          // console.log(error);
+          // });
         }
+      
 
       });
+        Promise.all(promises)
+    .then(responses => {
+      responses.forEach(response => {
+        console.log(response.data);
+        this.receivedResponses = this.receivedResponses + 1;
+        console.log("Received responses:" + this.receivedResponses); // log the response object to the console
+        if (response.data.correct === true) {
+          console.log('Answer is correct!'); // log a message to the console if the answer is correct
+          this.score = this.score + 1;
+          console.log(this.score); // log the updated score to the console
+        }
+      });
+      
+      if (this.receivedResponses === 10) {
+        console.log("Your score: " + this.score);
+      }
+    })
+    .catch(error => {
+      console.log(error);
+    });
+      // if (this.receivedResponses === 10) {
+      //   console.log("Your score: " + this.score);
+      // }
     },
     showAlert() {
       this.alert = true;
@@ -111,6 +141,8 @@ export default {
     },
   },
 }
+
+
 </script>
 
 <style>
