@@ -31,6 +31,7 @@ export default {
         answer: String,
         user_id: Number  
       },
+      questionsNumber: 0,
       counter: 0,
       score: 0,
       alert: false,
@@ -56,6 +57,7 @@ export default {
           this.quizzData = response.data;
           this.quizzData.questions.forEach(question => {
             question.selectedAnswer = '';
+            this.questionsNumber++;
           });
         })
         .catch(error => {
@@ -73,7 +75,7 @@ export default {
             this.counter = this.counter + 1;
           }
         });
-        if (this.counter != 10) {
+        if (this.counter != this.questionsNumber) {
           this.showAlert();
           this.counter = 0;
         }
@@ -104,6 +106,12 @@ export default {
           });
           if (this.receivedResponses === 10) {
             console.log("Your score: " + this.score);
+            this.$store.dispatch("saveQuizResult", {
+              quizId: this.quizzId,
+              score: this.score,
+              numQuestions: this.questionsNumber,
+            });
+            this.$router.push('/');
           }
         })
         .catch(error => {

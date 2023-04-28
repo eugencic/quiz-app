@@ -32,7 +32,6 @@ export default {
       })
         .then(response => {
           this.quizzes = response.data;
-          console.log(this.quizzes[0]);
         })
         .catch(error => {
           console.log(error);
