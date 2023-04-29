@@ -1,4 +1,5 @@
-import { createStore } from 'vuex'
+import { createStore } from "vuex";
+import audio from "./modules/audio";
 
 export default createStore({
   state: {
@@ -21,5 +22,7 @@ export default createStore({
       commit("addQuizResult", quizResult);
     },
   },
-  modules: {},
+  modules: {
+    audio,
+  },
 });

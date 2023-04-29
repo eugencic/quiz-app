@@ -76,8 +76,8 @@ export default {
           }
         });
         if (this.counter != this.questionsNumber) {
-          this.showAlert();
           this.counter = 0;
+          this.showAlert();
         }
         else {
           this.counter = 0;
@@ -104,7 +104,7 @@ export default {
               this.score = this.score + 1;
             }
           });
-          if (this.receivedResponses === 10) {
+          if (this.receivedResponses === this.questionsNumber) {
             this.$store.dispatch("saveQuizResult", {
               quizId: this.quizzId,
               score: this.score,

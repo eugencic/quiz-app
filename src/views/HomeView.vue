@@ -1,6 +1,9 @@
 <template>
   <div id="home-main-container">
-    <h1>Available Quizzes</h1>
+    <div id="header">
+      <v-btn id="logout-button" @click="logout">Log Out</v-btn>
+      <h1>Available Quizzes</h1>
+    </div>
     <QuizList :quizzes="quizzes" />
   </div>
 </template>
@@ -37,11 +40,19 @@ export default {
           console.log(error);
         });
     },
+    logout() {
+      localStorage.clear();
+      this.$router.push('/signup');
+    }
   },
 }
 </script>
 
 <style>
+#header {
+  width: 100%;
+}
+
 #home-main-container {
   display: flex;
   flex-direction: column;
@@ -52,5 +63,19 @@ export default {
 h1 {
   margin-top: 3%;
   color: #F5F5F5;
+}
+
+#logout-button {
+  position: absolute;
+  right: 15%;
+  margin-top: 3%;
+  background-color: #b94256;
+  color: #F5F5F5;
+}
+
+@media screen and (max-width: 820px) {
+    #logout-button {
+        display: none;
+    }
 }
 </style>

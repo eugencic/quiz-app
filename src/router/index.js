@@ -43,7 +43,8 @@ router.beforeEach((to, from, next) => {
       const currentDate = new Date();
       const savedDate = new Date(user.date + " " + user.time);
       if (currentDate.toDateString() === savedDate.toDateString()) {
-        if (currentDate.getTime() - savedDate.getTime() >= 12 * 60 * 60 * 1000) {
+        if (currentDate.getTime() - savedDate.getTime() >= 2 * 60 * 1000) {
+          // 12 * 60 * 60 * 1000;
           localStorage.clear();
           if (to.path === "/signup") {
             next();
@@ -54,7 +55,7 @@ router.beforeEach((to, from, next) => {
           next();
         }
       } else {
-        localStorage.removeItem("userData");
+        localStorage.clear();
         if (to.path === "/signup") {
           next();
         } else {
@@ -62,7 +63,7 @@ router.beforeEach((to, from, next) => {
         }
       }
     } else {
-      localStorage.removeItem("userData");
+      localStorage.clear();
       if (to.path === "/signup") {
         next();
       } else {
