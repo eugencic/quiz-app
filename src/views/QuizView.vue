@@ -105,7 +105,6 @@ export default {
             }
           });
           if (this.receivedResponses === 10) {
-            console.log("Your score: " + this.score);
             this.$store.dispatch("saveQuizResult", {
               quizId: this.quizzId,
               score: this.score,
