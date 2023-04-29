@@ -44,7 +44,7 @@ router.beforeEach((to, from, next) => {
       const savedDate = new Date(user.date + " " + user.time);
       if (currentDate.toDateString() === savedDate.toDateString()) {
         if (currentDate.getTime() - savedDate.getTime() >= 12 * 60 * 60 * 1000) {
-          localStorage.removeItem("userData");
+          localStorage.clear();
           if (to.path === "/signup") {
             next();
           } else {
