@@ -16,7 +16,7 @@
 export default {
   name: 'QuizList',
   props: {
-    quizzes: [],
+    quizzes: Array,
   },
   methods: {
     navigateToQuiz(quizId) {
@@ -43,6 +43,7 @@ export default {
   width: 80%;
   height: auto;
   margin-top: 3%;
+  margin-bottom: 3%;
   padding-top: 3%;
   padding-bottom: 3%;
   display: flex;

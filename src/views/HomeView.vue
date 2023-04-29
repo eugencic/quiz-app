@@ -1,6 +1,6 @@
 <template>
   <div id="home-main-container">
-    <h1>Quizzes</h1>
+    <h1>Available Quizzes</h1>
     <QuizList :quizzes="quizzes" />
   </div>
 </template>
