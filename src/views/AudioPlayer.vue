@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button @click="toggleMute">Mute/Unmute</button>
+    <button @click="toggleAudio">{{ isMuted ? 'Play' : 'Mute' }}</button>
   </div>
 </template>
 
@@ -18,14 +18,25 @@ export default {
     this.$store.dispatch("audio/createAudio", {
       src: require("../music/2.mp3"),
       loop: true,
-      autoplay: true,
+      autoplay: false, // set autoplay to false
       volume: 0.5,
     });
   },
   methods: {
-    toggleMute() {
+    toggleAudio() {
+      if (this.isMuted) {
+        this.audio.play();
+      } else {
+        this.audio.pause();
+      }
       this.$store.commit("audio/SET_MUTED", !this.isMuted);
     },
   },
 };
 </script>
+
+
+
+
+
+

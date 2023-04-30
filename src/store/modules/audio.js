@@ -1,31 +1,41 @@
 const state = {
   audio: null,
-  isMuted: false,
-};
+  isMuted: true
+}
 
 const mutations = {
   SET_AUDIO(state, audio) {
-    state.audio = audio;
+    state.audio = audio
   },
-  SET_MUTED(state, value) {
-    state.isMuted = value;
-    state.audio.muted = value;
-  },
-};
+  SET_MUTED(state, isMuted) {
+    state.isMuted = isMuted
+    state.audio.muted = isMuted
+  }
+}
 
 const actions = {
-  createAudio({ commit }, { src, loop = false, autoplay = false, volume = 1 }) {
-    const audio = new Audio(src);
-    audio.loop = loop;
-    audio.autoplay = autoplay;
-    audio.volume = volume;
-    commit("SET_AUDIO", audio);
+  createAudio({ commit }, { src, loop, autoplay, volume }) {
+    const audio = new Audio(src)
+    audio.loop = loop
+    audio.autoplay = autoplay
+    audio.volume = volume
+    commit('SET_AUDIO', audio)
   },
-};
+  playAudio({ state }) {
+    if (state.audio.paused) {
+      state.audio.play()
+    }
+  },
+  pauseAudio({ state }) {
+    if (!state.audio.paused) {
+      state.audio.pause()
+    }
+  },
+}
 
 export default {
   namespaced: true,
   state,
   mutations,
-  actions,
-};
+  actions
+}
