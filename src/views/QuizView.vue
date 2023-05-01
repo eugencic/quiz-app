@@ -1,6 +1,6 @@
 <template>
   <div id="quiz-main-container">
-    <h1>{{ quizzData.title }}</h1>
+    <h1 class="header-text">{{ quizzData.title }}</h1>
     <div id="quiz-container" v-for="(question, index) in quizzData.questions" :key="index">
       <h2>{{ question.question }}</h2>
       <div id="answer" v-for="(answer, answerIndex) in question.answers" :key="answerIndex"
@@ -50,7 +50,7 @@ export default {
     getQuizData() {
       axios.get(`https://late-glitter-4431.fly.dev/api/v54/quizzes/${this.quizzId}`, {
         headers: {
-          'X-Access-Token': 'd637e24c46ee36022cfe35c3e29352b6a68494a456d19bd37ffb50ec1ef315b0',
+          'X-Access-Token': 'bd69dea91d6abd534a0775035bc5368a4abecdab39e55759d69a1bb448e8647b',
         }
       })
         .then(response => {
@@ -89,7 +89,7 @@ export default {
             data: this.questionData
           }, {
             headers: {
-              'X-Access-Token': 'd637e24c46ee36022cfe35c3e29352b6a68494a456d19bd37ffb50ec1ef315b0',
+              'X-Access-Token': 'bd69dea91d6abd534a0775035bc5368a4abecdab39e55759d69a1bb448e8647b',
             }
           }
           ));

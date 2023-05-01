@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <button @click="toggleAudio">{{ isMuted ? 'Play' : 'Mute' }}</button>
-  </div>
+    <v-btn id="audio-button" :color="isMuted ? '#b94256' : '#42b983'" @click="toggleAudio">
+      <v-icon>{{ isMuted ? 'mdi-volume-off' : 'mdi-volume-high' }}</v-icon>
+    </v-btn>
 </template>
 
 <script>
@@ -16,9 +16,9 @@ export default {
   },
   mounted() {
     this.$store.dispatch("audio/createAudio", {
-      src: require("../music/2.mp3"),
+      src: require("../music/audio.mp3"),
       loop: true,
-      autoplay: false, // set autoplay to false
+      autoplay: false,
       volume: 0.5,
     });
   },
@@ -32,11 +32,17 @@ export default {
       this.$store.commit("audio/SET_MUTED", !this.isMuted);
     },
   },
+  watch: {
+    isMuted(newValue) {
+      const button = document.getElementById("audio-button");
+      button.style.backgroundColor = newValue ? "#42b983" : "#b94256";
+    },
+  },
 };
 </script>
 
-
-
-
-
-
+<style>
+  #audio-button {
+    margin: 3% 2% 3% 2%;
+  }
+</style>

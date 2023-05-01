@@ -14,24 +14,26 @@ const mutations = {
 }
 
 const actions = {
-  createAudio({ commit }, { src, loop, autoplay, volume }) {
-    const audio = new Audio(src)
-    audio.loop = loop
-    audio.autoplay = autoplay
-    audio.volume = volume
-    commit('SET_AUDIO', audio)
+  createAudio({ state, commit }, { src, loop, autoplay, volume }) {
+    if (!state.audio) {
+      const audio = new Audio(src);
+      audio.loop = loop;
+      audio.autoplay = autoplay;
+      audio.volume = volume;
+      commit("SET_AUDIO", audio);
+    }
   },
   playAudio({ state }) {
     if (state.audio.paused) {
-      state.audio.play()
+      state.audio.play();
     }
   },
   pauseAudio({ state }) {
     if (!state.audio.paused) {
-      state.audio.pause()
+      state.audio.pause();
     }
   },
-}
+};
 
 export default {
   namespaced: true,

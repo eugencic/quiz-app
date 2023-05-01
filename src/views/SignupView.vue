@@ -19,15 +19,21 @@
       </v-form>
     </div>
     <v-alert v-if="alert" text="Please fill out all the fields" type="warning" variant="tonal" class="alert"></v-alert>
-    <v-alert v-if="error" text="The user already exists" type="error" variant="tonal" class="alert"></v-alert>
+    <v-alert v-if="error" text="Error occured. The user already exists or there is no access to the internet" type="error" variant="tonal" class="alert"></v-alert>
   </div>
+  <AudioPlayer />
 </template>
 
 <script>
 import axios from 'axios';
 
+import AudioPlayer from "../components/AudioPlayer.vue";
+
 export default {
   name: 'SignupView',
+  components: {
+    AudioPlayer,
+  },
   data() {
     return {
       name: '',
@@ -60,7 +66,6 @@ export default {
         this.$router.push('/');
       }
     }
-    console.log(localStorage);
   },
   methods: {
     submitForm() {
@@ -78,7 +83,7 @@ export default {
       }, {
         headers: {
           'Content-Type': 'application/json',
-          'X-Access-Token': 'd637e24c46ee36022cfe35c3e29352b6a68494a456d19bd37ffb50ec1ef315b0',
+          'X-Access-Token': 'bd69dea91d6abd534a0775035bc5368a4abecdab39e55759d69a1bb448e8647b',
         }
       })
         .then(response => {
