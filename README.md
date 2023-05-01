@@ -1,5 +1,9 @@
 # Lab 4 - Quiz app
 
+## Important
+
+Change the .env variable according to the access token.
+
 ## Project setup
 ```
 npm install
