@@ -83,7 +83,7 @@ export default {
       }, {
         headers: {
           'Content-Type': 'application/json',
-          'X-Access-Token': 'bd69dea91d6abd534a0775035bc5368a4abecdab39e55759d69a1bb448e8647b',
+          'X-Access-Token': process.env.VUE_APP_ACCESS_TOKEN,
         }
       })
         .then(response => {
