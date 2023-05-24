@@ -2,7 +2,7 @@
 
 ## Important
 
-Change the .env variable according to the access token.
+Before starting the app, change the .env variable according to the access token.
 
 ## Project setup
 ```
